@@ -1,6 +1,5 @@
 import * as express from "express";
 import * as path from "path";
-//import * as ws from "ws";
 import {Server} from "ws";
 
 const app = express();
@@ -10,14 +9,11 @@ app.use('/node_modules', express.static(path.join(__dirname, '..', 'node_modules
 
 // HTTP Server
 app.get('/', (req, res) => {
-
-    res.sendFile(path.join(__dirname, '..', 'client/two-way-websocket-client.html'));
+    res.sendFile(path.join(__dirname, '..', 'client/testWebSocketClient.html'));
 });
 
 const httpServer = app.listen(8000, "localhost", () => {
-
     const {port} = httpServer.address();
-
     console.log('HTTP Server is listening on %s', port);
 });
 
@@ -28,12 +24,18 @@ console.log('WebSocket server is listening on port 8085');
 
 wsServer.on('connection',
            websocket => {
-               websocket.send('This message was pushed by the WebSocket server');
+                 websocket.send('This message was pushed by the WebSocket server');
 
-               websocket.on('message',
-                              message => console.log("Server received: %s", message));
+             websocket.on('message', message => {
+               console.log("Server recieved : %s", message);
+                 let todaysDate = new Date();
+               websocket.send('date pushed by server: ' + todaysDate.toString());
+             }
+             );
+
 
            });
+
 
 // Broadcasting to all clients
 /*
