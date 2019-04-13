@@ -1,45 +1,45 @@
-import * as express from "express";
-import * as path from "path";
-import {Server} from "ws";
+// import * as express from "express";
+// import * as path from "path";
+// import {Server} from "ws";
 
-const app = express();
+// const app = express();
 
-app.use('/', express.static(path.join(__dirname, '..', 'client')));
-app.use('/node_modules', express.static(path.join(__dirname, '..', 'node_modules')));
+// app.use('/', express.static(path.join(__dirname, '..', 'client')));
+// app.use('/node_modules', express.static(path.join(__dirname, '..', 'node_modules')));
 
-// HTTP Server
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client/testWebSocketClient.html'));
-});
+// // HTTP Server
+// app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname, '..', 'client/testWebSocketClient.html'));
+// });
 
-const httpServer = app.listen(8000, "localhost", () => {
-    const {port} = httpServer.address();
-    console.log('HTTP Server is listening on %s', port);
-});
+// const httpServer = app.listen(8000, "localhost", () => {
+//     const {port} = httpServer.address();
+//     console.log('HTTP Server is listening on %s', port);
+// });
 
-// WebSocket Server
-var wsServer: Server = new Server({port:8085});
+// // WebSocket Server
+// var wsServer: Server = new Server({port:8085});
 
-console.log('WebSocket server is listening on port 8085');
+// console.log('WebSocket server is listening on port 8085');
 
-wsServer.on('connection',
-           websocket => {
-                 websocket.send('This message was pushed by the WebSocket server');
+// wsServer.on('connection',
+//            websocket => {
+//                  websocket.send('This message was pushed by the WebSocket server');
 
-             websocket.on('message', message => {
-               console.log("Server recieved : %s", message);
-                 let todaysDate = new Date();
-               websocket.send('date pushed by server: ' + todaysDate.toString());
-             }
-             );
-
-
-           });
+//              websocket.on('message', message => {
+//                console.log("Server recieved : %s", message);
+//                  let todaysDate = new Date();
+//                websocket.send('date pushed by server: ' + todaysDate.toString());
+//              }
+//              );
 
 
-// Broadcasting to all clients
-/*
-wsServer.on('connection',
-    websocket => wsServer.clients
-        .forEach(
-            client =>client.send('This message was pushed by the WebSocket server')));*/
+//            });
+
+
+// // Broadcasting to all clients
+// /*
+// wsServer.on('connection',
+//     websocket => wsServer.clients
+//         .forEach(
+//             client =>client.send('This message was pushed by the WebSocket server')));*/
